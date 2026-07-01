@@ -1,64 +1,45 @@
 import { motion } from "framer-motion";
+import { Code2, Lightbulb, Gauge, GraduationCap, User } from "lucide-react";
+
+const traits = [
+  { icon: Code2, label: "Clean Code Advocate" },
+  { icon: Lightbulb, label: "Problem Solver" },
+  { icon: Gauge, label: "Performance Focused" },
+  { icon: GraduationCap, label: "Always Learning" },
+];
 
 export function About() {
   return (
-    <section id="about" className="py-24 md:py-32 border-t border-border/40">
-      <div className="mx-auto max-w-6xl px-6 grid md:grid-cols-12 gap-12">
-        <div className="md:col-span-4">
-          <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            01 — About
-          </div>
-          <h2 className="mt-4 font-display text-4xl md:text-5xl leading-tight">
-            A builder at heart.
-          </h2>
-        </div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7 }}
-          className="md:col-span-8 space-y-6 text-lg text-muted-foreground leading-relaxed"
-        >
-          <p>
-            I'm a full-stack engineer who enjoys the whole picture — from the
-            first pixel of a landing page to the last query in a database. I
-            work across the stack with{" "}
-            <span className="text-foreground">React, TypeScript, Next.js,
-            Laravel and PHP</span>, and I care deeply about how software{" "}
-            <span className="text-foreground">feels</span> once it's in front of
-            real users.
-          </p>
-          <p>
-            My open-source work spans real-estate ecosystems, social apps, blog
-            platforms, dashboards and dozens of front-end experiments. Each
-            project is a chance to sharpen a specific skill —{" "}
-            <span className="text-foreground">performance, accessibility,
-            animation, architecture</span> — and to keep shipping.
-          </p>
-          <p>
-            When I'm not building, I'm reading design systems, dissecting
-            production apps I admire, and looking for the next problem worth
-            solving well.
-          </p>
+    <section id="about" className="glass rounded-2xl p-6 md:p-7 h-full">
+      <div className="flex items-center gap-3">
+        <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary">
+          <User className="h-5 w-5" />
+        </span>
+        <h2 className="font-display font-bold text-xl">About Me</h2>
+      </div>
+      <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+        I'm a Full-Stack Engineer passionate about building modern, scalable,
+        and user-focused applications. I enjoy turning ideas into digital
+        experiences and continuously learning new technologies to solve
+        real-world problems.
+      </p>
 
-          <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-border/40 mt-8">
-            {[
-              { k: "Focus", v: "Full-stack web" },
-              { k: "Base", v: "Nigeria — Remote" },
-              { k: "Interests", v: "UI, DX, Systems" },
-              { k: "Open to", v: "Roles & Freelance" },
-            ].map((i) => (
-              <div key={i.k}>
-                <div className="text-xs uppercase tracking-widest text-muted-foreground/70">
-                  {i.k}
-                </div>
-                <div className="mt-1 text-foreground text-sm font-medium">
-                  {i.v}
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+      <div className="mt-6 space-y-2.5">
+        {traits.map((t, i) => (
+          <motion.div
+            key={t.label}
+            initial={{ opacity: 0, x: -10 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.05 }}
+            className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-3.5 py-2.5"
+          >
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary/15 text-primary">
+              <t.icon className="h-4 w-4" />
+            </span>
+            <span className="text-sm">{t.label}</span>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
