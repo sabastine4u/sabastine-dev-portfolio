@@ -3,9 +3,11 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getGithubData } from "@/lib/github.functions";
 import { Nav } from "@/components/portfolio/Nav";
 import { Hero } from "@/components/portfolio/Hero";
-import { About } from "@/components/portfolio/About";
 import { Projects } from "@/components/portfolio/Projects";
-import { Stack } from "@/components/portfolio/Stack";
+import { About } from "@/components/portfolio/About";
+import { Skills } from "@/components/portfolio/Skills";
+import { Experience } from "@/components/portfolio/Experience";
+import { GitHubActivity } from "@/components/portfolio/GitHubActivity";
 import { Contact } from "@/components/portfolio/Contact";
 import { Footer } from "@/components/portfolio/Footer";
 
@@ -48,9 +50,18 @@ function HomePage() {
           repoCount={profile?.publicRepos ?? repos.length}
           followers={profile?.followers ?? 0}
         />
-        <About />
         <Projects repos={repos} />
-        <Stack languages={languages} />
+
+        {/* 4-column info grid */}
+        <section className="py-16 md:py-20 border-t border-border/40">
+          <div className="mx-auto max-w-7xl px-6 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            <About />
+            <Skills />
+            <Experience />
+            <GitHubActivity languages={languages} repos={repos} followers={profile?.followers ?? 0} />
+          </div>
+        </section>
+
         <Contact />
       </main>
       <Footer />

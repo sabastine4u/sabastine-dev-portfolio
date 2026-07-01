@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, Github, Sparkles } from "lucide-react";
+import { ArrowRight, Github, Mail, Linkedin, Boxes, Zap, Code2, Award } from "lucide-react";
 import profile from "@/assets/sabastine.png.asset.json";
 
 type Props = {
@@ -8,79 +8,86 @@ type Props = {
   followers: number;
 };
 
+const badges = [
+  { name: "React", color: "oklch(0.75 0.15 220)", top: "8%", left: "-6%", delay: "float-a", icon: "⚛" },
+  { name: "TypeScript", color: "oklch(0.65 0.18 250)", top: "42%", left: "-14%", delay: "float-b", icon: "TS" },
+  { name: "Next.js", color: "oklch(0.98 0 0)", top: "4%", right: "-6%", delay: "float-c", icon: "N" },
+  { name: "Node.js", color: "oklch(0.72 0.19 145)", top: "38%", right: "-10%", delay: "float-a", icon: "⬢" },
+  { name: "Laravel", color: "oklch(0.65 0.22 25)", top: "70%", right: "-4%", delay: "float-b", icon: "L" },
+];
+
 export function Hero({ stars, repoCount, followers }: Props) {
   return (
-    <section id="top" className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32">
+    <section id="top" className="relative overflow-hidden pt-32 pb-16 md:pt-36">
+      {/* Space background */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-primary/20 blur-[140px]" />
-        <div className="absolute -bottom-40 -right-40 h-[520px] w-[520px] rounded-full bg-accent/20 blur-[140px]" />
-        <div
-          className="absolute inset-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "linear-gradient(var(--foreground) 1px, transparent 1px), linear-gradient(90deg, var(--foreground) 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
-            maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
-          }}
-        />
+        <div className="absolute inset-0 starfield" />
+        <div className="absolute inset-0 twinkle starfield" style={{ backgroundPosition: "100px 200px" }} />
+        <div className="absolute -top-40 left-1/4 h-[600px] w-[600px] rounded-full bg-primary/25 blur-[160px]" />
+        <div className="absolute top-20 right-0 h-[500px] w-[500px] rounded-full bg-accent/20 blur-[140px]" />
       </div>
 
-      <div className="mx-auto max-w-6xl px-6 grid lg:grid-cols-12 gap-12 items-center">
-        <div className="lg:col-span-8">
+      <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        {/* Left column */}
+        <div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 rounded-full glass px-3 py-1.5 text-xs text-muted-foreground"
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-xs"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Available for full-stack engineering roles & freelance
+            <span className="text-foreground/90">Available for opportunities</span>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.05 }}
-            className="mt-6 font-display font-light tracking-tight text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.95]"
+            className="mt-6 font-display font-bold tracking-tight text-5xl md:text-6xl lg:text-[4.25rem] leading-[1.05]"
           >
-            I build <span className="italic text-gradient">premium</span>
+            Full-Stack Engineer
             <br />
-            web products
+            Building Modern
             <br />
-            end-to-end.
+            <span className="text-gradient">Digital Experiences</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="mt-8 max-w-xl text-lg text-muted-foreground leading-relaxed"
+            className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed"
           >
-            I'm <span className="text-foreground font-medium">Sabastine Aguluka Chibuike</span>{" "}
-            — a full-stack engineer crafting fast, thoughtful interfaces and clean backend
-            systems with React, TypeScript, Laravel and modern JavaScript.
+            I build scalable, responsive, and user-focused applications using
+            React, Next.js, JavaScript, TypeScript, Node.js, Laravel, and
+            modern web technologies.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="mt-10 flex flex-wrap items-center gap-3"
+            className="mt-8 flex flex-wrap items-center gap-3"
           >
             <a
               href="#projects"
-              className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground pl-5 pr-2 py-2 text-sm font-medium hover:bg-primary/90 transition-all"
+              className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground px-6 py-3 text-sm font-semibold glow-purple hover:opacity-95 transition-all"
             >
-              View selected work
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-primary-foreground/10 group-hover:translate-x-0.5 transition-transform">
-                <ArrowUpRight className="h-4 w-4" />
-              </span>
+              View Projects
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-xl glass px-6 py-3 text-sm font-medium hover:border-primary/60 transition-colors"
+            >
+              Contact Me <Mail className="h-4 w-4" />
             </a>
             <a
               href="https://github.com/sabastine4u"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full glass px-5 py-2.5 text-sm font-medium hover:border-primary/60 transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl glass px-6 py-3 text-sm font-medium hover:border-primary/60 transition-colors"
             >
               <Github className="h-4 w-4" /> GitHub
             </a>
@@ -89,55 +96,127 @@ export function Hero({ stars, repoCount, followers }: Props) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-14 grid grid-cols-3 gap-6 max-w-md"
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="mt-8 flex items-center gap-4 text-sm text-muted-foreground"
           >
-            {[
-              { k: repoCount, l: "Public repos" },
-              { k: stars, l: "GitHub stars" },
-              { k: followers, l: "Followers" },
-            ].map((s) => (
-              <div key={s.l}>
-                <div className="font-display text-3xl md:text-4xl">{s.k}</div>
-                <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">
-                  {s.l}
-                </div>
-              </div>
-            ))}
+            <span>Connect with me</span>
+            <div className="flex items-center gap-2">
+              <SocialIcon href="https://github.com/sabastine4u" label="GitHub"><Github className="h-4 w-4" /></SocialIcon>
+              <SocialIcon href="https://www.linkedin.com/in/sabastine-aguluka-chibuike" label="LinkedIn"><Linkedin className="h-4 w-4" /></SocialIcon>
+              <SocialIcon href="mailto:sabastine4u@gmail.com" label="Email"><Mail className="h-4 w-4" /></SocialIcon>
+            </div>
           </motion.div>
         </div>
 
+        {/* Right column — portrait + floating badges + terminal */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.2 }}
-          className="lg:col-span-4 relative"
+          className="relative mx-auto w-full max-w-md aspect-square"
         >
-          <div className="relative aspect-[4/5] rounded-3xl overflow-hidden glass grain">
+          {/* Purple orbit rings */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 via-transparent to-accent/30 blur-3xl" />
+          <div className="absolute inset-6 rounded-full border border-primary/30" />
+          <div className="absolute inset-14 rounded-full border border-accent/20" />
+
+          {/* Portrait */}
+          <div className="absolute inset-8 rounded-full overflow-hidden glow-purple">
             <img
               src={profile.url}
-              alt="Portrait of Sabastine Aguluka Chibuike"
+              alt="Sabastine Aguluka Chibuike"
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-              <div className="glass rounded-full px-3 py-1.5 text-xs flex items-center gap-1.5">
-                <Sparkles className="h-3 w-3 text-primary" />
-                Currently shipping
-              </div>
-              <div className="glass rounded-full px-3 py-1.5 text-xs font-mono">
-                v2026
+            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+          </div>
+
+          {/* Floating tech badges */}
+          {badges.map((b) => (
+            <div
+              key={b.name}
+              className={`absolute ${b.delay}`}
+              style={{
+                top: b.top,
+                left: (b as any).left,
+                right: (b as any).right,
+              }}
+            >
+              <div className="glass rounded-2xl px-3 py-2 flex items-center gap-2 shadow-xl">
+                <span
+                  className="grid h-7 w-7 place-items-center rounded-lg text-xs font-bold"
+                  style={{ background: `${b.color}20`, color: b.color }}
+                >
+                  {b.icon}
+                </span>
+                <span className="text-xs font-medium pr-1">{b.name}</span>
               </div>
             </div>
-          </div>
-          <div className="absolute -bottom-6 -left-6 h-24 w-24 rounded-2xl bg-primary/90 grid place-items-center text-primary-foreground font-display rotate-[-8deg] shadow-2xl">
-            <div className="text-center leading-tight">
-              <div className="text-2xl font-semibold">3+</div>
-              <div className="text-[10px] uppercase tracking-widest">years</div>
+          ))}
+
+          {/* Terminal card */}
+          <div className="absolute -bottom-4 -left-4 md:-left-8 float-b">
+            <div className="glass rounded-xl overflow-hidden shadow-2xl w-[280px]">
+              <div className="flex items-center gap-1.5 px-3 py-2 border-b border-border/50">
+                <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+                <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80" />
+                <span className="h-2.5 w-2.5 rounded-full bg-green-400/80" />
+              </div>
+              <pre className="p-3 text-[11px] font-mono leading-relaxed text-foreground/90">
+{`> const developer = {
+   name: "Sabastine",
+   role: "Full-Stack Engineer",
+   passion: "Building scalable web apps",
+   code: "Clean. Efficient. Impactful."
+ }
+> _`}
+              </pre>
             </div>
           </div>
         </motion.div>
       </div>
+
+      {/* Stats bar */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.4 }}
+        className="mx-auto max-w-7xl px-6 mt-16"
+      >
+        <div className="glass rounded-2xl p-5 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-5">
+          <Stat icon={Boxes} value={`${repoCount}+`} label="Public Repos" />
+          <Stat icon={Zap} value="4+" label="Years of Coding" />
+          <Stat icon={Code2} value="25+" label="Technologies" />
+          <Stat icon={Award} value={`${Math.max(stars + followers * 4, 100)}+`} label="GitHub Contributions" />
+        </div>
+      </motion.div>
     </section>
+  );
+}
+
+function Stat({ icon: Icon, value, label }: { icon: any; value: string; label: string }) {
+  return (
+    <div className="flex items-center gap-4">
+      <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/15 text-primary flex-shrink-0">
+        <Icon className="h-5 w-5" />
+      </span>
+      <div>
+        <div className="font-display font-bold text-2xl">{value}</div>
+        <div className="text-xs text-muted-foreground">{label}</div>
+      </div>
+    </div>
+  );
+}
+
+function SocialIcon({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      target={href.startsWith("http") ? "_blank" : undefined}
+      rel="noreferrer"
+      aria-label={label}
+      className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary/60 transition-colors"
+    >
+      {children}
+    </a>
   );
 }
