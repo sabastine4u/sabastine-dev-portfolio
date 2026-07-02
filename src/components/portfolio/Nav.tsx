@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Github, Linkedin, Boxes } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
+
 
 const links = [
   { href: "#about", label: "About" },
