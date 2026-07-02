@@ -66,6 +66,7 @@ export function Nav() {
           >
             <Linkedin className="h-4 w-4" />
           </a>
+          <ThemeToggle />
         </div>
       </div>
     </header>
