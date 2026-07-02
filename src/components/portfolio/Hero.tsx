@@ -121,13 +121,13 @@ export function Hero({ stars, repoCount, followers }: Props) {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] h-[62%] w-[62%] rounded-full border border-accent/20" />
 
           {/* Portrait */}
-          <div className="absolute inset-6 rounded-[2.5rem] overflow-hidden glow-purple">
+          <div className="absolute inset-6 rounded-[2.5rem] overflow-hidden glow-purple bg-background/60">
             <img
               src={profile.url}
               alt="Sabastine Aguluka Chibuike"
-              className="h-full w-full object-cover object-top"
+              className="h-full w-full object-contain"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" />
           </div>
 
           {/* Floating tech badges */}
