@@ -42,7 +42,7 @@ function HomePage() {
   const { repos, languages, totalStars, profile } = data;
 
   return (
-    <div className="dark min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
       <Nav />
       <main>
         <Hero

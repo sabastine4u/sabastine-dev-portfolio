@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Github, Linkedin, Boxes } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
+
 
 const links = [
   { href: "#about", label: "About" },
@@ -64,6 +66,7 @@ export function Nav() {
           >
             <Linkedin className="h-4 w-4" />
           </a>
+          <ThemeToggle />
         </div>
       </div>
     </header>
