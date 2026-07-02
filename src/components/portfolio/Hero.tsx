@@ -113,19 +113,19 @@ export function Hero({ stars, repoCount, followers }: Props) {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.2 }}
-          className="relative mx-auto w-full max-w-[22rem] aspect-[9/16]"
+          className="relative mx-auto w-full max-w-[22rem] aspect-square"
         >
           {/* Purple orbit rings — centered circles */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] h-[90%] w-[90%] rounded-full bg-gradient-to-br from-primary/30 via-transparent to-accent/30 blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] h-[78%] w-[78%] rounded-full border border-primary/30" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] h-[62%] w-[62%] rounded-full border border-accent/20" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[90%] w-[90%] rounded-full bg-gradient-to-br from-primary/30 via-transparent to-accent/30 blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[78%] w-[78%] rounded-full border border-primary/30" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[62%] w-[62%] rounded-full border border-accent/20" />
 
           {/* Portrait */}
-          <div className="absolute inset-6 rounded-[2.5rem] overflow-hidden glow-purple bg-background/60">
+          <div className="absolute inset-6 rounded-full overflow-hidden glow-purple bg-background/60">
             <img
               src={profile.url}
               alt="Sabastine Aguluka Chibuike"
-              className="h-full w-full object-contain"
+              className="h-full w-full object-cover object-top"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" />
           </div>
