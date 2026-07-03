@@ -18,7 +18,7 @@ const badges = [
 
 export function Hero({ stars, repoCount, followers }: Props) {
   return (
-    <section id="top" className="relative overflow-hidden pt-32 pb-16 md:pt-36">
+    <section id="top" className="relative overflow-hidden pt-20 pb-16 md:pt-24">
       {/* Space background */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 starfield" />
