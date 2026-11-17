@@ -39,13 +39,15 @@ const USERNAME = "sabastine4u";
 
 async function gh<T>(path: string): Promise<T> {
   const token = process.env.GITHUB_TOKEN;
-  const res = await fetch(`https://api.github.com${path}`, {
+  const request = (authenticated: boolean) => fetch(`https://api.github.com${path}`, {
     headers: {
       Accept: "application/vnd.github+json",
       "User-Agent": "sabastine-portfolio",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(authenticated && token ? { Authorization: `Bearer ${token}` } : {}),
     },
   });
+  let res = await request(Boolean(token));
+  if (res.status === 401 && token) res = await request(false);
   if (!res.ok) throw new Error(`GitHub ${path} → ${res.status}`);
   return (await res.json()) as T;
 }

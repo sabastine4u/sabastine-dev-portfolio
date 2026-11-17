@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, lazyRouteComponent } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getGithubData } from "@/lib/github.functions";
 import { Nav } from "@/components/portfolio/Nav";
@@ -19,12 +19,28 @@ const ghQuery = queryOptions({
 
 export const Route = createFileRoute("/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(ghQuery),
+  head: () => ({
+    meta: [
+      { title: "Sabastine Aguluka Chibuike | Full-Stack Engineer" },
+      {
+        name: "description",
+        content: "Explore Sabastine Aguluka Chibuike's full-stack engineering work, projects, and GitHub activity.",
+      },
+      { property: "og:title", content: "Sabastine Aguluka Chibuike | Full-Stack Engineer" },
+      {
+        property: "og:description",
+        content: "Explore Sabastine Aguluka Chibuike's full-stack engineering work, projects, and GitHub activity.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: HomePage,
-  errorComponent: ({ error, reset }) => (
+  errorComponent: lazyRouteComponent(async () => ({ default: ({ error, reset }: { error: unknown; reset: () => void }) => (
     <div className="min-h-screen grid place-items-center bg-background text-foreground p-6 text-center">
       <div>
         <h1 className="font-display text-3xl">Something didn't load</h1>
-        <p className="text-muted-foreground mt-2 text-sm">{error.message}</p>
+        <p className="text-muted-foreground mt-2 text-sm">{error instanceof Error ? error.message : "Please try again."}</p>
         <button
           onClick={reset}
           className="mt-6 rounded-full bg-primary text-primary-foreground px-5 py-2 text-sm"
@@ -33,7 +49,7 @@ export const Route = createFileRoute("/")({
         </button>
       </div>
     </div>
-  ),
+  ) })),
   notFoundComponent: () => <div className="p-10">Not found</div>,
 });
 

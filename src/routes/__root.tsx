@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
+  lazyRouteComponent,
   createRootRouteWithContext,
   useRouter,
   HeadContent,
@@ -34,7 +35,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -96,7 +97,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent,
+  errorComponent: lazyRouteComponent(async () => ({ default: ErrorComponent })),
 });
 
 function RootShell({ children }: { children: ReactNode }) {
