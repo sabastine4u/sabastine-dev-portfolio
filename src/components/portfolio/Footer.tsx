@@ -23,7 +23,9 @@ export function Footer() {
           <ul className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
             {["About", "Skills", "Projects", "Experience", "Contact"].map((l) => (
               <li key={l}>
-                <a href={`#${l.toLowerCase()}`} className="hover:text-primary transition-colors">{l}</a>
+                <a href={`#${l.toLowerCase()}`} className="hover:text-primary transition-colors">
+                  {l}
+                </a>
               </li>
             ))}
           </ul>
@@ -32,9 +34,34 @@ export function Footer() {
         <div>
           <div className="text-sm font-semibold mb-4">Resources</div>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><a href="https://github.com/sabastine4u" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">GitHub</a></li>
-            <li><a href="https://www.linkedin.com/in/sabastine-aguluka-chibuike" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">LinkedIn</a></li>
-            <li><a href="mailto:sabastine4u@gmail.com" className="hover:text-primary transition-colors">Email</a></li>
+            <li>
+              <a
+                href="https://github.com/sabastine4u"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.linkedin.com/in/sabastine-aguluka-chibuike"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                LinkedIn
+              </a>
+            </li>
+            <li>
+              <a
+                href="mailto:sabastine4u@gmail.com"
+                className="hover:text-primary transition-colors"
+              >
+                Email
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -42,13 +69,26 @@ export function Footer() {
           <div className="text-sm font-semibold mb-4">Let's connect</div>
           <p className="text-sm text-muted-foreground mb-4">Available for new opportunities</p>
           <div className="space-y-2 text-sm text-muted-foreground">
-            <a href="https://github.com/sabastine4u" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+            <a
+              href="https://github.com/sabastine4u"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 hover:text-primary transition-colors"
+            >
               <Github className="h-4 w-4" /> GitHub
             </a>
-            <a href="https://www.linkedin.com/in/sabastine-aguluka-chibuike" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+            <a
+              href="https://www.linkedin.com/in/sabastine-aguluka-chibuike"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 hover:text-primary transition-colors"
+            >
               <Linkedin className="h-4 w-4" /> LinkedIn
             </a>
-            <a href="mailto:sabastine4u@gmail.com" className="flex items-center gap-2 hover:text-primary transition-colors">
+            <a
+              href="mailto:sabastine4u@gmail.com"
+              className="flex items-center gap-2 hover:text-primary transition-colors"
+            >
               <Mail className="h-4 w-4" /> Email
             </a>
           </div>

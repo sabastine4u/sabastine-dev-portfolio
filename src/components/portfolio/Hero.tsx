@@ -1,28 +1,86 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Github, Mail, Linkedin, Boxes, Zap, Code2, Award } from "lucide-react";
-import profile from "@/assets/sabastine.png.asset.json";
+import {
+  ArrowRight,
+  Github,
+  Mail,
+  Linkedin,
+  Boxes,
+  Star,
+  Users,
+  Award,
+  type LucideIcon,
+} from "lucide-react";
 
 type Props = {
-  stars: number;
-  repoCount: number;
-  followers: number;
+  repoCount: number | null;
+  totalStars: number | null;
+  followers: number | null;
+  contributions: number | null;
 };
 
-const badges = [
-  { name: "React", color: "oklch(0.75 0.15 220)", top: "8%", left: "-6%", delay: "float-a", icon: "⚛" },
-  { name: "TypeScript", color: "oklch(0.65 0.18 250)", top: "42%", left: "-14%", delay: "float-b", icon: "TS" },
-  { name: "Next.js", color: "oklch(0.98 0 0)", top: "4%", right: "-6%", delay: "float-c", icon: "N" },
-  { name: "Node.js", color: "oklch(0.72 0.19 145)", top: "38%", right: "-10%", delay: "float-a", icon: "⬢" },
-  { name: "Laravel", color: "oklch(0.65 0.22 25)", top: "70%", right: "-4%", delay: "float-b", icon: "L" },
+type FloatingBadge = {
+  name: string;
+  color: string;
+  top: string;
+  left?: string;
+  right?: string;
+  delay: string;
+  icon: string;
+};
+
+const badges: FloatingBadge[] = [
+  {
+    name: "React",
+    color: "oklch(0.75 0.15 220)",
+    top: "8%",
+    left: "-6%",
+    delay: "float-a",
+    icon: "⚛",
+  },
+  {
+    name: "TypeScript",
+    color: "oklch(0.65 0.18 250)",
+    top: "42%",
+    left: "-14%",
+    delay: "float-b",
+    icon: "TS",
+  },
+  {
+    name: "Next.js",
+    color: "oklch(0.98 0 0)",
+    top: "4%",
+    right: "-6%",
+    delay: "float-c",
+    icon: "N",
+  },
+  {
+    name: "Node.js",
+    color: "oklch(0.72 0.19 145)",
+    top: "38%",
+    right: "-10%",
+    delay: "float-a",
+    icon: "⬢",
+  },
+  {
+    name: "Laravel",
+    color: "oklch(0.65 0.22 25)",
+    top: "70%",
+    right: "-4%",
+    delay: "float-b",
+    icon: "L",
+  },
 ];
 
-export function Hero({ stars, repoCount, followers }: Props) {
+export function Hero({ repoCount, totalStars, followers, contributions }: Props) {
   return (
     <section id="top" className="relative overflow-hidden pt-28 pb-16 md:pt-32">
       {/* Space background */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 starfield" />
-        <div className="absolute inset-0 twinkle starfield" style={{ backgroundPosition: "100px 200px" }} />
+        <div
+          className="absolute inset-0 twinkle starfield"
+          style={{ backgroundPosition: "100px 200px" }}
+        />
         <div className="absolute -top-40 left-1/4 h-[600px] w-[600px] rounded-full bg-primary/25 blur-[160px]" />
         <div className="absolute top-20 right-0 h-[500px] w-[500px] rounded-full bg-accent/20 blur-[140px]" />
       </div>
@@ -59,9 +117,8 @@ export function Hero({ stars, repoCount, followers }: Props) {
             transition={{ duration: 0.6, delay: 0.15 }}
             className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed"
           >
-            I build scalable, responsive, and user-focused applications using
-            React, Next.js, JavaScript, TypeScript, Node.js, Laravel, and
-            modern web technologies.
+            I build scalable, responsive, and user-focused applications using React, Next.js,
+            JavaScript, TypeScript, Node.js, Laravel, and modern web technologies.
           </motion.p>
 
           <motion.div
@@ -101,9 +158,18 @@ export function Hero({ stars, repoCount, followers }: Props) {
           >
             <span>Connect with me</span>
             <div className="flex items-center gap-2">
-              <SocialIcon href="https://github.com/sabastine4u" label="GitHub"><Github className="h-4 w-4" /></SocialIcon>
-              <SocialIcon href="https://www.linkedin.com/in/sabastine-aguluka-chibuike" label="LinkedIn"><Linkedin className="h-4 w-4" /></SocialIcon>
-              <SocialIcon href="mailto:sabastine4u@gmail.com" label="Email"><Mail className="h-4 w-4" /></SocialIcon>
+              <SocialIcon href="https://github.com/sabastine4u" label="GitHub">
+                <Github className="h-4 w-4" />
+              </SocialIcon>
+              <SocialIcon
+                href="https://www.linkedin.com/in/sabastine-aguluka-chibuike"
+                label="LinkedIn"
+              >
+                <Linkedin className="h-4 w-4" />
+              </SocialIcon>
+              <SocialIcon href="mailto:sabastine4u@gmail.com" label="Email">
+                <Mail className="h-4 w-4" />
+              </SocialIcon>
             </div>
           </motion.div>
         </div>
@@ -123,7 +189,7 @@ export function Hero({ stars, repoCount, followers }: Props) {
           {/* Portrait */}
           <div className="absolute inset-3 rounded-full overflow-hidden glow-purple bg-background/60">
             <img
-              src={profile.url}
+              src="/images/sabastine.png"
               alt="Sabastine Aguluka Chibuike"
               className="h-full w-full object-cover object-top"
             />
@@ -137,8 +203,8 @@ export function Hero({ stars, repoCount, followers }: Props) {
               className={`absolute ${b.delay}`}
               style={{
                 top: b.top,
-                left: (b as any).left,
-                right: (b as any).right,
+                ...(b.left ? { left: b.left } : {}),
+                ...(b.right ? { right: b.right } : {}),
               }}
             >
               <div className="glass rounded-2xl px-3 py-2 flex items-center gap-2 shadow-xl">
@@ -162,7 +228,7 @@ export function Hero({ stars, repoCount, followers }: Props) {
                 <span className="h-2.5 w-2.5 rounded-full bg-green-400/80" />
               </div>
               <pre className="p-3 text-[11px] font-mono leading-relaxed text-foreground/90">
-{`> const developer = {
+                {`> const developer = {
    name: "Sabastine",
    role: "Full-Stack Engineer",
    passion: "Building scalable web apps",
@@ -183,17 +249,25 @@ export function Hero({ stars, repoCount, followers }: Props) {
         className="mx-auto max-w-7xl px-6 mt-16"
       >
         <div className="glass rounded-2xl p-5 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-5">
-          <Stat icon={Boxes} value={`${repoCount}+`} label="Public Repos" />
-          <Stat icon={Zap} value="4+" label="Years of Coding" />
-          <Stat icon={Code2} value="25+" label="Technologies" />
-          <Stat icon={Award} value={`${Math.max(stars + followers * 4, 100)}+`} label="GitHub Contributions" />
+          <Stat icon={Boxes} value={formatStat(repoCount)} label="Public Repos" />
+          <Stat icon={Star} value={formatStat(totalStars)} label="GitHub Stars" />
+          <Stat icon={Users} value={formatStat(followers)} label="Followers" />
+          <Stat
+            icon={Award}
+            value={formatStat(contributions)}
+            label={contributions === null ? "Contributions unavailable" : "Contributions (12 mo)"}
+          />
         </div>
       </motion.div>
     </section>
   );
 }
 
-function Stat({ icon: Icon, value, label }: { icon: any; value: string; label: string }) {
+function formatStat(value: number | null): string {
+  return value === null ? "—" : value.toLocaleString();
+}
+
+function Stat({ icon: Icon, value, label }: { icon: LucideIcon; value: string; label: string }) {
   return (
     <div className="flex items-center gap-4">
       <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/15 text-primary flex-shrink-0">
@@ -207,7 +281,15 @@ function Stat({ icon: Icon, value, label }: { icon: any; value: string; label: s
   );
 }
 
-function SocialIcon({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
+function SocialIcon({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <a
       href={href}

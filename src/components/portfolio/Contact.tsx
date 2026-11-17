@@ -5,7 +5,7 @@ import { Github, Linkedin, Mail, Send } from "lucide-react";
 const EMAIL = "sabastine4u@gmail.com";
 
 export function Contact() {
-  const [state, setState] = useState<"idle" | "sent">("idle");
+  const [state, setState] = useState<"idle" | "draft-opened">("idle");
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -17,7 +17,7 @@ export function Contact() {
     const subject = encodeURIComponent(`Portfolio inquiry — ${name}`);
     const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
     window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-    setState("sent");
+    setState("draft-opened");
     form.reset();
   }
 
@@ -36,16 +36,27 @@ export function Contact() {
               Let's Build <span className="text-gradient">Something Great</span>
             </h2>
             <p className="mt-4 text-muted-foreground max-w-md leading-relaxed">
-              I'm open to new opportunities, collaborations, and interesting
-              projects. Let's discuss how we can work together.
+              I'm open to new opportunities, collaborations, and interesting projects. Let's discuss
+              how we can work together.
             </p>
 
             <div className="mt-8">
-              <div className="text-xs uppercase tracking-widest text-muted-foreground mb-3">Connect with me</div>
+              <div className="text-xs uppercase tracking-widest text-muted-foreground mb-3">
+                Connect with me
+              </div>
               <div className="flex items-center gap-3">
-                <SocialLink href={`mailto:${EMAIL}`} label="Email"><Mail className="h-4 w-4" /></SocialLink>
-                <SocialLink href="https://github.com/sabastine4u" label="GitHub"><Github className="h-4 w-4" /></SocialLink>
-                <SocialLink href="https://www.linkedin.com/in/sabastine-aguluka-chibuike" label="LinkedIn"><Linkedin className="h-4 w-4" /></SocialLink>
+                <SocialLink href={`mailto:${EMAIL}`} label="Email">
+                  <Mail className="h-4 w-4" />
+                </SocialLink>
+                <SocialLink href="https://github.com/sabastine4u" label="GitHub">
+                  <Github className="h-4 w-4" />
+                </SocialLink>
+                <SocialLink
+                  href="https://www.linkedin.com/in/sabastine-aguluka-chibuike"
+                  label="LinkedIn"
+                >
+                  <Linkedin className="h-4 w-4" />
+                </SocialLink>
               </div>
             </div>
           </div>
@@ -56,21 +67,25 @@ export function Contact() {
               <Field name="email" type="email" placeholder="Your Email" />
             </div>
             <textarea
+              aria-label="Your message"
               name="message"
               required
               rows={5}
               placeholder="Your Message"
-              className="w-full rounded-xl border border-border bg-background/60 px-4 py-3 text-sm outline-none focus:border-primary/60 resize-none"
+              className="w-full rounded-xl border border-border bg-background/60 px-4 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-primary/60 resize-none"
             />
             <div className="flex items-center justify-between">
               <div className="text-xs text-muted-foreground">
-                {state === "sent" ? "Draft opened in your mail app ✓" : "Opens in your default mail client."}
+                {state === "draft-opened"
+                  ? "Your mail app should open with a draft. Send it there to deliver your message."
+                  : "Opens a draft in your default mail app; you will need to send it there."}
               </div>
               <button
                 type="submit"
                 className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground px-5 py-2.5 text-sm font-semibold glow-purple hover:opacity-95 transition-all"
               >
-                Send Message <Send className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                Send Message{" "}
+                <Send className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>
           </form>
@@ -80,26 +95,48 @@ export function Contact() {
   );
 }
 
-function Field({ name, type = "text", placeholder }: { name: string; type?: string; placeholder?: string }) {
+function Field({
+  name,
+  type = "text",
+  placeholder,
+}: {
+  name: string;
+  type?: string;
+  placeholder?: string;
+}) {
+  const label = name === "name" ? "Your name" : "Your email";
   return (
-    <input
-      name={name}
-      type={type}
-      required
-      placeholder={placeholder}
-      className="w-full rounded-xl border border-border bg-background/60 px-4 py-3 text-sm outline-none focus:border-primary/60"
-    />
+    <label className="sr-only" htmlFor={`contact-${name}`}>
+      {label}
+      <input
+        id={`contact-${name}`}
+        name={name}
+        type={type}
+        required
+        placeholder={placeholder}
+        autoComplete={name === "name" ? "name" : "email"}
+        className="w-full rounded-xl border border-border bg-background/60 px-4 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-primary/60"
+      />
+    </label>
   );
 }
 
-function SocialLink({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
+function SocialLink({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <a
       href={href}
       target={href.startsWith("http") ? "_blank" : undefined}
       rel="noreferrer"
       aria-label={label}
-      className="grid h-10 w-10 place-items-center rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary/60 transition-colors"
+      className="grid h-10 w-10 place-items-center rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {children}
     </a>

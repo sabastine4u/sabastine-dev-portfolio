@@ -5,7 +5,7 @@ type Theme = "dark" | "light";
 
 function getInitial(): Theme {
   if (typeof window === "undefined") return "dark";
-  const saved = window.localStorage.getItem("theme") as Theme | null;
+  const saved = window.localStorage.getItem("theme");
   return saved === "light" || saved === "dark" ? saved : "dark";
 }
 
@@ -15,7 +15,7 @@ function apply(theme: Theme) {
   root.classList.add(theme);
 }
 
-export function useTheme() {
+function useTheme() {
   const [theme, setTheme] = useState<Theme>("dark");
   useEffect(() => {
     const t = getInitial();
@@ -40,10 +40,14 @@ export function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className="relative grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary/60 transition-colors"
+      className="relative grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
-      <Sun className={`h-4 w-4 absolute transition-all ${isDark ? "opacity-0 rotate-90 scale-50" : "opacity-100 rotate-0 scale-100"}`} />
-      <Moon className={`h-4 w-4 absolute transition-all ${isDark ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-50"}`} />
+      <Sun
+        className={`h-4 w-4 absolute transition-all ${isDark ? "opacity-0 rotate-90 scale-50" : "opacity-100 rotate-0 scale-100"}`}
+      />
+      <Moon
+        className={`h-4 w-4 absolute transition-all ${isDark ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-50"}`}
+      />
     </button>
   );
 }

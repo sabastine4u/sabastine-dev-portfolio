@@ -15,9 +15,15 @@ function classify(r: Repo): Filter[] {
   const lang = r.language || "";
 
   if (/api|rest|graphql|backend|server/.test(hay)) tags.push("API", "Backend");
-  if (["PHP", "Laravel", "Blade", "Node.js"].includes(lang) || /laravel|node|express|php/.test(hay)) tags.push("Backend");
-  if (["TypeScript", "JavaScript", "HTML", "CSS", "Vue"].includes(lang) || /react|next|frontend|ui|portfolio|landing/.test(hay)) tags.push("Frontend");
-  if (r.homepage || /platform|ecosystem|ecommerce|dashboard|management|app/.test(hay)) tags.push("Full Stack");
+  if (["PHP", "Laravel", "Blade", "Node.js"].includes(lang) || /laravel|node|express|php/.test(hay))
+    tags.push("Backend");
+  if (
+    ["TypeScript", "JavaScript", "HTML", "CSS", "Vue"].includes(lang) ||
+    /react|next|frontend|ui|portfolio|landing/.test(hay)
+  )
+    tags.push("Frontend");
+  if (r.homepage || /platform|ecosystem|ecommerce|dashboard|management|app/.test(hay))
+    tags.push("Full Stack");
   if (/cli|tool|script|util|starter|template/.test(hay)) tags.push("Tools");
   return tags.length ? tags : ["Full Stack"];
 }
@@ -28,23 +34,35 @@ function scoreRepo(r: Repo) {
   if (r.homepage) s += 6;
   s += r.stars * 2;
   s += Math.min(4, r.topics.length);
-  s += Math.max(0, 10 - Math.floor((Date.now() - +new Date(r.pushedAt)) / (1000 * 60 * 60 * 24 * 60)));
+  s += Math.max(
+    0,
+    10 - Math.floor((Date.now() - +new Date(r.pushedAt)) / (1000 * 60 * 60 * 24 * 60)),
+  );
   return s;
 }
 
 function techFor(r: Repo): string[] {
   const t = new Set<string>();
   if (r.language) t.add(r.language);
-  r.topics.slice(0, 4).forEach((x) => t.add(x.replace(/(^|-)([a-z])/g, (_, s, c) => s + c.toUpperCase())));
+  r.topics
+    .slice(0, 4)
+    .forEach((x) => t.add(x.replace(/(^|-)([a-z])/g, (_, s, c) => s + c.toUpperCase())));
   return Array.from(t).slice(0, 4);
 }
 
-export function Projects({ repos }: { repos: Repo[] }) {
+export function Projects({ repos, error }: { repos: Repo[]; error?: string }) {
   const [filter, setFilter] = useState<Filter>("All");
   const [showAll, setShowAll] = useState(false);
 
   const enriched = useMemo(
-    () => repos.map((r) => ({ repo: r, tags: classify(r), score: scoreRepo(r) })).sort((a, b) => b.score - a.score),
+    () =>
+      repos
+        .map((r) => ({ repo: r, tags: classify(r), score: scoreRepo(r) }))
+        .sort(
+          (a, b) =>
+            Number(Boolean(b.repo.homepage)) - Number(Boolean(a.repo.homepage)) ||
+            b.score - a.score,
+        ),
     [repos],
   );
   const filtered = filter === "All" ? enriched : enriched.filter((e) => e.tags.includes(filter));
@@ -64,24 +82,28 @@ export function Projects({ repos }: { repos: Repo[] }) {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 rounded-full glass p-1.5">
-            {FILTERS.map((f) => (
-              <button
-                key={f}
-                onClick={() => {
-                  setFilter(f);
-                  setShowAll(false);
-                }}
-                className={`px-4 py-1.5 text-xs md:text-sm rounded-full transition-all ${
-                  filter === f
-                    ? "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
+          {!error && repos.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2 rounded-full glass p-1.5">
+              {FILTERS.map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  aria-pressed={filter === f}
+                  onClick={() => {
+                    setFilter(f);
+                    setShowAll(false);
+                  }}
+                  className={`px-4 py-1.5 text-xs md:text-sm rounded-full transition-all ${
+                    filter === f
+                      ? "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          )}
 
           <a
             href="https://github.com/sabastine4u?tab=repositories"
@@ -93,17 +115,45 @@ export function Projects({ repos }: { repos: Repo[] }) {
           </a>
         </div>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((e, i) => (
-            <ProjectCard key={e.repo.name} repo={e.repo} tag={e.tags[0]} tech={techFor(e.repo)} index={i} />
-          ))}
-        </div>
+        {error ? (
+          <div className="mt-10 glass rounded-2xl p-6 text-center" role="status">
+            <p className="text-muted-foreground">
+              GitHub projects could not be loaded. Please try again or view the repositories
+              directly.
+            </p>
+            <button
+              type="button"
+              onClick={() => window.location.reload()}
+              className="mt-4 rounded-full glass px-5 py-2 text-sm hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              Try again
+            </button>
+          </div>
+        ) : repos.length === 0 ? (
+          <p className="mt-10 text-center text-sm text-muted-foreground" role="status">
+            No public non-fork repositories were found.
+          </p>
+        ) : (
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {visible.map((e, i) => (
+              <ProjectCard
+                key={e.repo.name}
+                repo={e.repo}
+                tag={e.tags[0] ?? "Project"}
+                tech={techFor(e.repo)}
+                index={i}
+              />
+            ))}
+          </div>
+        )}
 
-        {filtered.length > 6 && (
+        {!error && filtered.length > 6 && (
           <div className="mt-10 text-center">
             <button
+              type="button"
+              aria-expanded={showAll}
               onClick={() => setShowAll((s) => !s)}
-              className="rounded-full glass px-6 py-2.5 text-sm hover:border-primary/60"
+              className="rounded-full glass px-6 py-2.5 text-sm hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               {showAll ? "Show less" : `Show ${filtered.length - 6} more`}
             </button>
@@ -114,8 +164,19 @@ export function Projects({ repos }: { repos: Repo[] }) {
   );
 }
 
-function ProjectCard({ repo, tag, tech, index }: { repo: Repo; tag: string; tech: string[]; index: number }) {
+function ProjectCard({
+  repo,
+  tag,
+  tech,
+  index,
+}: {
+  repo: Repo;
+  tag: string;
+  tech: string[];
+  index: number;
+}) {
   const seed = encodeURIComponent(repo.name);
+  const [previewFailed, setPreviewFailed] = useState(false);
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -126,14 +187,15 @@ function ProjectCard({ repo, tag, tech, index }: { repo: Repo; tag: string; tech
     >
       {/* Preview */}
       <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
-        <div
-          className="absolute inset-0 opacity-90"
-          style={{
-            backgroundImage: `url(https://opengraph.githubassets.com/${seed}/sabastine4u/${repo.name})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
+        {!previewFailed && (
+          <img
+            src={`https://opengraph.githubassets.com/${seed}/sabastine4u/${encodeURIComponent(repo.name)}`}
+            alt=""
+            loading="lazy"
+            onError={() => setPreviewFailed(true)}
+            className="absolute inset-0 h-full w-full object-cover opacity-90"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
         <span className="absolute top-3 right-3 rounded-md bg-primary/90 text-primary-foreground text-[10px] font-semibold uppercase tracking-wider px-2 py-1">
           {tag}
@@ -165,7 +227,7 @@ function ProjectCard({ repo, tag, tech, index }: { repo: Repo; tag: string; tech
             <a
               href={repo.homepage}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300"
             >
               <ExternalLink className="h-3.5 w-3.5" /> Live Demo
@@ -178,8 +240,8 @@ function ProjectCard({ repo, tag, tech, index }: { repo: Repo; tag: string; tech
           <a
             href={repo.url}
             target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub repo"
+            rel="noopener noreferrer"
+            aria-label={`Open ${repo.name} on GitHub`}
             className="grid h-8 w-8 place-items-center rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary/60 transition-colors"
           >
             <Github className="h-4 w-4" />

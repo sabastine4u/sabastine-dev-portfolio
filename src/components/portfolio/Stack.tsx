@@ -23,15 +23,13 @@ export function Stack({ languages }: { languages: Record<string, number> }) {
     <section id="stack" className="py-24 md:py-32 border-t border-border/40">
       <div className="mx-auto max-w-6xl px-6 grid lg:grid-cols-12 gap-12">
         <div className="lg:col-span-5">
-          <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            03 — Stack
-          </div>
+          <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">03 — Stack</div>
           <h2 className="mt-4 font-display text-4xl md:text-5xl leading-tight">
             Tools I reach for.
           </h2>
           <p className="mt-4 text-muted-foreground max-w-md">
-            A pragmatic mix — modern React for interfaces, Laravel and Node for
-            backends, and a strong opinion that simple beats clever.
+            A pragmatic mix — modern React for interfaces, Laravel and Node for backends, and a
+            strong opinion that simple beats clever.
           </p>
 
           <div className="mt-10 space-y-3">

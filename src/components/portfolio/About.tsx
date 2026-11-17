@@ -18,10 +18,9 @@ export function About() {
         <h2 className="font-display font-bold text-xl">About Me</h2>
       </div>
       <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-        I'm a Full-Stack Engineer passionate about building modern, scalable,
-        and user-focused applications. I enjoy turning ideas into digital
-        experiences and continuously learning new technologies to solve
-        real-world problems.
+        I'm a Full-Stack Engineer passionate about building modern, scalable, and user-focused
+        applications. I enjoy turning ideas into digital experiences and continuously learning new
+        technologies to solve real-world problems.
       </p>
 
       <div className="mt-6 space-y-2.5">

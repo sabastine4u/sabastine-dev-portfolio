@@ -420,3 +420,13 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Deployment
+
+Use npm as the authoritative package manager and commit `package-lock.json` with dependency changes.
+The project builds with `npm run build` for Vercel using Nitro's Vercel preset; no environment
+variables are required to render the portfolio. Set `GITHUB_TOKEN` in Vercel only if you want
+authenticated GitHub API requests and real contribution-calendar data. Without it, public
+repositories are fetched anonymously and contribution data is shown as unavailable. Never expose
+this token through a `VITE_` variable. The Supabase variables in `.env.example` are not used by the
+current portfolio routes.

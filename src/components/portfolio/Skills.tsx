@@ -15,7 +15,7 @@ const groups = [
   },
   {
     title: "Deployment",
-    items: ["Vercel", "Netlify"],
+    items: ["Vercel", "Netlify", "Render"],
   },
 ];
 
@@ -53,7 +53,9 @@ export function Skills() {
       <div className="mt-6 space-y-5">
         {groups.map((g) => (
           <div key={g.title}>
-            <div className="text-xs uppercase tracking-widest text-muted-foreground mb-2.5">{g.title}</div>
+            <div className="text-xs uppercase tracking-widest text-muted-foreground mb-2.5">
+              {g.title}
+            </div>
             <div className="flex flex-wrap gap-2">
               {g.items.map((it) => (
                 <span
